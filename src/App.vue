@@ -19,6 +19,6 @@ export default {
 body{
   width: 50%;
   margin: 0 auto;
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Libre Baskerville', serif;
 }
 </style>

@@ -59,11 +59,15 @@ ul{
 p{
   margin: 0;
   padding: 0;
+  font-style: italic;
+  font-size: 12px;
 }
-
+h2{
+  margin: 10px 0;
+}
 li{
   border-bottom: 1px solid #A6A6A6;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   padding: 5px 0;
   background-color: white;
 }
