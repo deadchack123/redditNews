@@ -16,8 +16,9 @@ export default {
 </script>
 
 <style>
-body{
-  width: 50%;
+#app{
+  width: calc(100% - 30px);
+  max-width: 1000px;
   margin: 0 auto;
   font-family: 'Libre Baskerville', serif;
 }

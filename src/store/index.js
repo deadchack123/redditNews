@@ -4,93 +4,57 @@ const axios = require('axios')
 Vue.use(Vuex)
 
 const state = {
-    data: [],
-    after: "",
-    before: "",
-    count: 5,
-    forbid: false,
-    show: true
+    items: [],
+    afterItems: "",
+    beforeItems: "",
+    countForAPI: 5,
+    isLoading: false,
 }
 
 const mutations = {
     // сохранение данных
-    SAVE_DATA(state, payload) {
-        let cutData = payload.data.data
-        state.data = cutData.children
-        state.after = cutData.after
-        state.before = cutData.before
+    SAVE_ITEMS(state, items) {
+        let sliceItems = items.data.data
+        state.items = sliceItems.children
+        if (sliceItems.after || sliceItems.before) {
+            state.afterItems = sliceItems.after
+            state.beforeItems = sliceItems.before
+        } else {
+            console.log('sliceItems.after и sliceItems.after == null')
+        }
+
     },
-    // показ/скрытие текущей страницы
-    SHOW(state, payload) {
-        state.show = payload
-    },
-    // блок кнопок
-    FORBID(state, payload) {
-        state.forbid = payload
+    IS_LOADING(state, boolValue) {
+        state.isLoading = boolValue;
     },
     // кол-во просмотренных новостей
-    COUNT(state, payload) {
-        state.count = state.count + parseInt(`${payload}` + 5)
+    COUNT_FOR_API(state, value) {
+        if(value){
+            value == 'after' ? state.countForAPI += 5 : state.countForAPI -= 5
+        }
     }
 }
 
 
 const actions = {
-    takeNews({ commit }) {
-        axios.get('https://www.reddit.com/r/news.json?limit=5')
+    loadItems({commit}, value) {
+        commit('IS_LOADING', true)
+        commit('COUNT_FOR_API', value)
+        let afterOrBefore = value == 'after' ? state.afterItems : state.beforeItems
+        let partUrl = value ? `${value}=${afterOrBefore}&count=${state.countForAPI}` : ""
+        axios.get(`https://www.reddit.com/r/news.json?limit=5&${partUrl}`)
             .then((res) => {
-                commit('SAVE_DATA', res)
+                commit('SAVE_ITEMS', res)
+                commit('IS_LOADING', false)
             })
             .catch((err) => {
                 console.log(err)
             })
-    },
-    nextNews({ commit }) {
-        if (state.after) {
-            commit('SHOW', false)
-            commit('FORBID', true)
-            axios.get('https://www.reddit.com/r/news.json?limit=5&after=' + state.after + '&count=' + state.count)
-                .then((res) => {
-                    commit('SAVE_DATA', res)
-                    commit('COUNT', '+')
-                    commit('SHOW', true)
-                    commit('FORBID', false)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-
-        } else {
-            console.log(new Error('Нет данных'))
-        }
-    },
-    prevNews({ commit }) {
-        if (state.before) {
-            commit('SHOW', false)
-            commit('FORBID', true)
-            axios.get('https://www.reddit.com/r/news.json?limit=5&before=' + state.before + '&count=' + state.count)
-                .then((res) => {
-                    commit('SAVE_DATA', res)
-                    commit('COUNT', '-')
-                    commit('SHOW', true)
-                    commit('FORBID', false)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        } else {
-            console.log(new Error('Нет данных'))
-        }
     }
 }
 
 
-const getters = {
-    data: state => state.data,
-    count: state => state.count,
-    forbid: state => state.forbid,
-    show: state => state.show
-}
+const getters = {}
 
 const store = new Vuex.Store({
     state,
