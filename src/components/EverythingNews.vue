@@ -11,7 +11,11 @@
         </div>
         </a>
       </li>
+<<<<<<< HEAD
       <li v-if='!isLoading ? items.length < dontChangeThisNumber && pageCount > dontChangeThisNumber : false'>
+=======
+      <li v-if='!isLoading ? items.length < 5 && pageCount > 5 : false'>
+>>>>>>> 45c174e79905832a6a43771f173fb1169a2a1173
       <h2>Новости закончились</h2>
       </li>
     </ul>
@@ -27,7 +31,14 @@ export default {
   name: 'EverythingNews',
   created(){
         this.$store.dispatch('loadItems')
+<<<<<<< HEAD
         
+=======
+          .then((n) => {
+            console.log("++++++++++++++++++++++++++")
+            console.log(n)
+          })
+>>>>>>> 45c174e79905832a6a43771f173fb1169a2a1173
   },
   mounted() {
     this.$root.$on('loaditems', (value) => {
@@ -39,7 +50,10 @@ export default {
     isLoading: state => state.isLoading,
     afterItems: state => state.afterItems,
     pageCount: state => state.countForAPI,
+<<<<<<< HEAD
     dontChangeThisNumber: state => state.dontChangeThisNumber
+=======
+>>>>>>> 45c174e79905832a6a43771f173fb1169a2a1173
   })
 }
 </script>
