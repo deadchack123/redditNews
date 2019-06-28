@@ -7,8 +7,9 @@ const state = {
     items: [],
     afterItems: "",
     beforeItems: "",
-    countForAPI: 5,
+    countForAPI: 7,
     isLoading: false,
+    dontChangeThisNumber: 7
 }
 
 const mutations = {
@@ -31,7 +32,7 @@ const mutations = {
     // кол-во просмотренных новостей
     COUNT_FOR_API(state, value) {
         if(value){
-            value == 'after' ? state.countForAPI += 5 : state.countForAPI -= 5
+            value == 'after' ? state.countForAPI += state.dontChangeThisNumber : state.countForAPI -= state.dontChangeThisNumber
         }
     }
 }
@@ -43,7 +44,8 @@ const actions = {
         commit('COUNT_FOR_API', value)
         let afterOrBefore = value == 'after' ? state.afterItems : state.beforeItems
         let partUrl = value ? `${value}=${afterOrBefore}&count=${state.countForAPI}` : ""
-        axios.get(`https://www.reddit.com/r/news.json?limit=5&${partUrl}`)
+        let limitUrlvalue = state.dontChangeThisNumber
+        axios.get(`https://www.reddit.com/r/news.json?limit=${limitUrlvalue}&${partUrl}`)
             .then((res) => {
                 commit('SAVE_ITEMS', res)
                 commit('IS_LOADING', false)

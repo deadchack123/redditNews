@@ -1,6 +1,6 @@
 <template>
   <div>
-      <button class="button prev" @click='loadItems("before")' :disabled="pageCount == 5 || !beforeItems || isLoading">PREV</button>
+      <button class="button prev" @click='loadItems("before")' :disabled="pageCount == dontChangeThisNumber || !beforeItems || isLoading">PREV</button>
       <p>{{ currentPage }}</p>
       <button class="button next" @click='loadItems("after")' :disabled="!afterItems || isLoading">NEXT</button>
   </div>
@@ -22,7 +22,8 @@ export default {
         isLoading: state => state.isLoading,
         afterItems: state => state.afterItems,
         beforeItems: state => state.beforeItems,
-        currentPage: state => Math.ceil(state.countForAPI / 5)
+        dontChangeThisNumber: state => state.dontChangeThisNumber,
+        currentPage: state => Math.ceil(state.countForAPI / state.dontChangeThisNumber)
     })
 };
 </script>
