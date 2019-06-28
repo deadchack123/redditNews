@@ -22,7 +22,7 @@ export default {
         isLoading: state => state.isLoading,
         afterItems: state => state.afterItems,
         beforeItems: state => state.beforeItems,
-        currentPage: state => state.countForAPI / 5
+        currentPage: state => Math.ceil(state.countForAPI / 5)
     })
 };
 </script>
