@@ -27,7 +27,6 @@ export default {
   name: 'EverythingNews',
   created(){
         this.$store.dispatch('loadItems')
-        
   },
   mounted() {
     this.$root.$on('loaditems', (value) => {
