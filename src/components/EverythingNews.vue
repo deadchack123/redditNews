@@ -11,7 +11,7 @@
         </div>
         </a>
       </li>
-      <li v-if='!isLoading ? items.length < 5 && pageCount > 5 : false'>
+      <li v-if='!isLoading ? items.length < dontChangeThisNumber && pageCount > dontChangeThisNumber : false'>
       <h2>Новости закончились</h2>
       </li>
     </ul>
@@ -27,10 +27,6 @@ export default {
   name: 'EverythingNews',
   created(){
         this.$store.dispatch('loadItems')
-          .then((n) => {
-            console.log("++++++++++++++++++++++++++")
-            console.log(n)
-          })
   },
   mounted() {
     this.$root.$on('loaditems', (value) => {
@@ -42,6 +38,7 @@ export default {
     isLoading: state => state.isLoading,
     afterItems: state => state.afterItems,
     pageCount: state => state.countForAPI,
+    dontChangeThisNumber: state => state.dontChangeThisNumber
   })
 }
 </script>
